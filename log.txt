@@ -1,0 +1,4 @@
+3 functionalities
+// post --> /url
+// get --> /url/:id
+// get -->/url/analytics/:id

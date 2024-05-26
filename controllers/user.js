@@ -7,7 +7,7 @@ async function handle_create_newuser(req,res){
     email:email,
     password:password,
   })
-  return res.render('home');
+  return res.redirect('/');
 }
 
 async function handle_user_login(req,res){
@@ -22,7 +22,8 @@ async function handle_user_login(req,res){
     });
  }
  const token=setUser(user);
- return res.json({token:token});
+ res.cookie('uid',token);
+ return res.redirect('/');
 }
 
 module.exports={

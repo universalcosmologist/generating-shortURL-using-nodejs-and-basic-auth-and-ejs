@@ -1,22 +1,32 @@
 const { getUser }=require('../controllers/service/auth');
 
-async function restrict_to_logged_user(req,res,next){
+function checkAuthentication(req,res,next){
     const token=req.cookies?.uid;
-    if(!token) res.redirect('/login');
+    req.user=null;
+    if(!token){
+        return next();
+    }
     const user=getUser(token);
-    if(!user) return res.redirect('/login');
-    req.user=user;
-     next();
-}
-
-async function checkAuth(req,res,next){
-   const token=req.cookies?.uid;
-    user=getUser(token);
     req.user=user;
     next();
 }
 
+function restrict_to(roles=[]){
+return function(req,res,next){
+  if(!req.user){
+    return res.redirect('/login');
+ }
+  else if(!roles.includes(req.user.role)){
+   return res.send('Unauthorized');
+ }
+ else {
+    next();
+ }
+
+}
+}
+
 module.exports={
-restrict_to_logged_user,
-checkAuth,
+ checkAuthentication,
+ restrict_to,
 }

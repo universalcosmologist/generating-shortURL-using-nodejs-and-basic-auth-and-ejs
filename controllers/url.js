@@ -46,10 +46,18 @@ async function handle_login(req,res){
     return res.render('login');
 }
 
+async function handle_show_all_urls(req,res){
+const allUrls=await Url.find({});
+ return res.render('home',{
+    urls:allUrls,
+ })
+}
+
 module.exports={
     handleGenerate_newshortURL,
     handle_get_analytics,
     handle_show_home_page,
     handle_sign_up_user,
     handle_login,
+    handle_show_all_urls,
 }

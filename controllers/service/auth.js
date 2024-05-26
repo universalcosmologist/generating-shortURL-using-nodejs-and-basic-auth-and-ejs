@@ -1,10 +1,12 @@
 const jwt=require('jsonwebtoken');
 const secret_key='unkd%^';
+
 function setUser(User){
   return jwt.sign({
     _id:User._id,
     name:User.name,
     email:User.email,
+    role:User.role,
   },secret_key);
 }
 

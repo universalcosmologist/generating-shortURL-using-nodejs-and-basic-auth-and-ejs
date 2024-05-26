@@ -2,7 +2,7 @@ const express=require('express');
 
 const cookieParser=require('cookie-parser');
 
-const {restrict_to_logged_user,checkAuth}=require('./middlewares/auth');
+const {checkAuthentication,restrict_to}=require('./middlewares/auth');
 
 const path=require('path');
 
@@ -30,11 +30,13 @@ app.use(cookieParser());
 
 app.use(express.urlencoded( { extended:false } ));
 
+app.use(checkAuthentication);
+
 app.use('/user',User_route);
 
-app.use('/url',restrict_to_logged_user,route);
+app.use('/url', restrict_to(['NORMAL','ADMIN']) ,route);
 
-app.use('/',checkAuth,get_route);
+app.use('/',get_route);
 
 app.listen(PORT,()=>{
     console.log(`server started at port number : ${PORT}`);
